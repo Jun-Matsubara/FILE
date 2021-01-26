@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html><meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/pure-min.css">
+  <link rel="stylesheet" href="/static/style.css?v=a7">
+<body><div class="content">
+  <h1>
+      <!-- タイトル -->
+      {% if mode == 'upload' %}
+        アップロード完了
+      {% else %}
+        ダウンロードできます
+      {% endif %}
+  </h1>
+  <div class="box-noborder">
+    <p>ファイルの情報: </p>
+    <table class="pure-table pure-table-bordered">
+      <tr>
+        <th>所有者</th>
+        <td>{{ name }}</td>
+      </tr>
+      <tr>
+        <th>ファイルの説明</th>
+        <td>{{ memo }}</td>
+      </tr>
+      <tr>
+        <th>ファイル名</th>
+        <td>{{ filename }}</td>
+      </tr>
+      <tr>
+        <th>ダウンロード回数</th>
+        <td>{{ count }}</td>
+      </tr>
+      <tr>
+        <th>保存期限</th>
+        <td>{{ time_limit }}</td>
+      </tr>
+    </table>
+  </div>
+  {% if mode == 'upload' %}
+    <div class="box-noborder">
+      <p>ダウンロード先の情報:</p>
+      <table class="pure-table pure-table-bordered">
+      <tr>
+        <th>URL</th>
+        <td><input size="30" value="{{url}}"></td>
+      </tr>
+      <tr>
+        <th>パスワード</th>
+        <td>{{ pw }}</td>
+      </tr>
+      </table>
+    </div>
+  {% else %}
+    <div class="box-noborder">
+    <form action="{{url}}" method="POST"
+      class="pure-form">
+      {% csrf_token %}
+      <label for="pw">パスワード</label>
+      <input type="text" name="pw" id="pw" size="16">
+      <button type="submit"
+              class="pure-button pure-button-primary">
+      ダウンロード</button>
+    </form>
+    </div>
+  {% endif %}
+  <p><a href="{% url 'index' %}">→他のファイルをアップロード</a></p>
+</div></body></html>
+
